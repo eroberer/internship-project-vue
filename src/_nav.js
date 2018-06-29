@@ -1,16 +1,28 @@
 var userRank = sessionStorage.getItem("rank");
 console.log("Rank " + userRank);
+var menuItems = [];
+switch (userRank) {
+  // Öğrenci
+  case 1:
+    menuItems = [
+      {
+        name: 'Stajlarım',
+        url: '/student/internlist',
+        icon: 'icon-speedometer'
+      },
+    ];
+  break;
+
+  default:
+    break;
+}
 
 export default {
   items: [
     {
       name: 'Dashboard',
       url: '/dashboard',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'primary',
-        text: 'NEW'
-      }
+      icon: 'icon-speedometer'
     },
     {
       title: true,
