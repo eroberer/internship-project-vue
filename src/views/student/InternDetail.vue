@@ -6,11 +6,18 @@
           <div slot="header">
             <strong>{{ $route.params["Firma Adı"] }}</strong> ({{ $route.params["Başlangıç"] }} - {{ $route.params["Bitiş"] }})
             <span class="text-right">
+              <div v-if="$route.params.Durum == 2">
              <b-button variant="success" @click="insertModalShow = !insertModalShow">
               Yeni Gün Ekle
-            </b-button>
+              </b-button>
+
+              <b-button variant="danger" @click="handleFinish">
+              Stajı Tamamla
+              </b-button>
+
+              </div>
             </span>
-            <b-modal @ok="handleSubmit" v-model="insertModalShow" title="Yeni Gün Ekle">
+              <b-modal @ok="handleSubmit" v-model="insertModalShow" title="Yeni Gün Ekle">
 
               <b-form-group
                 label="Tarih"
@@ -40,6 +47,7 @@
               </b-form-group>
 
             </b-modal>
+              
           </div>
      
           <b-table  striped hover :items="days" :fields="fields">
@@ -249,7 +257,11 @@ export default {
             this.getInternDays(this.internId);
           }
         });
-
+        this.editDate= "";
+        this.editText= "";
+        this.editInputFile= [];
+        this.editFileList= [];
+        this.updateDayId= "";
 
     },
 
@@ -297,6 +309,10 @@ export default {
             this.getInternDays(this.internId);
           }
         });
+
+        this.inputDate= "";
+        this.textarea= "";
+        this.file= [];
     },
 
     getInternDays(internId) {
@@ -325,6 +341,7 @@ export default {
               alert(resJson.error);
             }
           } else {
+            this.days = [];
             resJson.gunler.map(item => {
               this.days.push({
                 id: item.id,
@@ -337,6 +354,39 @@ export default {
             });
           }
         });
+    },
+
+    handleFinish() {
+      if(confirm("Stajı tamamlamak istediğinize emin misiniz? (Gün Ekleme ve düzenleme yapılmaz)")) {
+      const url = "http://bitirme.emre.pw/Staj/SonucDegistir";
+
+      var data = new FormData();
+      data.append("token", sessionStorage.getItem("token"));
+      data.append("sonuc", 3);
+      data.append("staj_id", this.$route.params.id);
+
+      let fetchData = {
+        method: "POST",
+        body: data
+      };
+
+      return fetch(url, fetchData)
+        .then(res => {
+          return res.json();
+        })
+        .then(resJson => {
+          if (resJson.result == false) {
+            console.log(resJson.error);
+            if (resJson.error == -1) {
+              sessionStorage.clear();
+              location.reload();
+              return -1;
+            }
+          } else {
+            location.reload();
+          }
+        });
+      }
     }
   }
 };
