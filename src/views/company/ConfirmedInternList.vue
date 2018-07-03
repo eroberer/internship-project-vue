@@ -4,14 +4,13 @@
       <b-col md="12">
         <b-card>
           <div slot="header">
-            <strong>Staj Başvuruları</strong>
+            <strong>Değerlendirilecek Stajlar</strong>
           </div>
 
           <b-table  striped hover :items="interns" :fields="fields">
             
-            <template slot="Onay Durumu" slot-scope="data">
-                <b-button variant="success" @click="confirm(true, data.item.id)">Onay</b-button>
-                <b-button variant="danger" @click="confirm(false, data.item.id)">Red</b-button>
+            <template slot="Değerlendir" slot-scope="data">
+                <b-button variant="primary" :to="{ name: 'CompanyInternDetail', params: data.item }">Stajı Değerlendir</b-button>
             </template>
 
           </b-table>
@@ -25,10 +24,10 @@
 
 <script>
 export default {
-  name: "InternList",
+  name: "ConfirmedInternList",
   data() {
     return {
-      fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Onay Durumu"],
+      fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Değerlendir"],
       interns: []
     };
   },
@@ -76,7 +75,6 @@ export default {
       var data = new FormData();
       data.append("token", sessionStorage.getItem("token"));
       data.append("firma_id", JSON.parse(sessionStorage.getItem("info")).firmalar[0].firma_id);
-
       let fetchData = {
         method: "POST",
         body: data
@@ -96,7 +94,7 @@ export default {
             }
           } else {
             resJson.list.map(item => {
-              if (item.sonuc == 0)
+              if (item.sonuc == 3)
                 this.interns.push({
                   id: item.staj_id,
                   "Ad Soyad": item.ad_soyad,

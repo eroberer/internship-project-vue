@@ -108,9 +108,9 @@
                   Dosyayı Sil
                 </b-button>
               </div>
-              <div v-else-if="$route.params.Durum > 2">
-                Firma onayı bekleniyor
-              </div>
+            </template>
+            <template slot="resim" slot-scope="data">
+                <b-img height="80" @click="clickImage(data.item.resim)" width="80" :src="data.item.resim" />
             </template>
             </b-table> 
 
@@ -141,6 +141,7 @@ export default {
       days: [],
       insertModalShow: false,
       updateModalShow: false,
+      baseUrl:"",
       // insert
       minDate: "",
       maxDate: "",
@@ -226,7 +227,7 @@ export default {
       data.append("kullanici_id", sessionStorage.getItem("userId"));
       data.append("rapor_id", this.updateDayId);
       data.append("tarih", this.editDate);
-      data.append("aciklama", this.textarea);
+      data.append("aciklama", this.editText);
 
       if (this.editInputFile.length > 0) {
         for (let index = 0; index < this.editInputFile.length; index++) {
@@ -235,7 +236,7 @@ export default {
       } else {
         data.append("resimler[]", "");
       }
-      console.log(data);
+
       let fetchData = {
         method: "POST",
         body: data
@@ -255,14 +256,20 @@ export default {
             }
           } else {
             this.getInternDays(this.internId);
+              this.editDate= "";
+              this.editText= "";
+              this.editInputFile= [];
+              this.editFileList= [];
+              this.updateDayId= "";
           }
         });
-        this.editDate= "";
-        this.editText= "";
-        this.editInputFile= [];
-        this.editFileList= [];
-        this.updateDayId= "";
 
+
+    },
+
+    clickImage(image) {
+      var win = window.open(image, '_blank');
+      win.focus();
     },
 
     handleSubmit() {
@@ -307,12 +314,13 @@ export default {
             }
           } else {
             this.getInternDays(this.internId);
+              this.inputDate= "";
+              this.textarea= "";
+              this.file= [];
           }
         });
 
-        this.inputDate= "";
-        this.textarea= "";
-        this.file= [];
+
     },
 
     getInternDays(internId) {
@@ -341,6 +349,7 @@ export default {
               alert(resJson.error);
             }
           } else {
+            this.baseUrl = resJson.url;
             this.days = [];
             resJson.gunler.map(item => {
               this.days.push({
@@ -351,6 +360,13 @@ export default {
                 "Okul Onay": item.okul_onay,
                 Resimler: item.resimler
               });
+            });
+            this.days.map(o => {
+              if(o.Resimler.length > 0) {
+                o.Resimler.map(r => {
+                  r.resim = resJson.url + r.resim;
+                })
+              }
             });
           }
         });

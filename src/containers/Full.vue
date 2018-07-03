@@ -65,9 +65,14 @@ export default {
           url: "/company/memberadd",
           icon: "icon-speedometer"
         },
-         {
+        {
           name: "Staj Başvuruları",
           url: "/company/internlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Değerlendirilecek Stajlar",
+          url: "/company/confirmedinternlist",
           icon: "icon-speedometer"
         }
       ];
