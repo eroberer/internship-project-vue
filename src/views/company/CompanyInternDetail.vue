@@ -6,27 +6,34 @@
           <div slot="header">
             <strong>{{ $route.params["Ad Soyad"] }}</strong> ({{ $route.params["Başlangıç"] }} - {{ $route.params["Bitiş"] }})
             <span class="text-right">
-             <b-button variant="danger" @click="insertModalShow">
-              Bitir
+             <b-button variant="danger" @click="submitSelectedDays">
+              Tamamla
             </b-button>
             </span>
 
           </div>
-     
+
           <b-table  striped hover :items="days" :fields="fields">
             <template slot="Günler" slot-scope="data">
               <b>{{ data.item["Tarih"] }}</b><br/>
               {{ data.item["Açıklama"] }} <br />
-              {{ data.item["Resimler"].length }}
-              
+
+              <b-img
+                height="100"
+                width="100"
+                style="margin:5px"
+                v-for="image in data.item.Resimler"
+                :key="image.id"
+                @click="clickImage(image.resim)"
+                :src="printImage(image.resim)">
+              </b-img>
+
             </template>
 
              <template slot="İşlem" slot-scope="data">
-                <b-button variant="primary" @click="handleUpdateModal(data.item)">
-                  Düzenle
-                </b-button>
+               <b-form-checkbox @change="checkDay(data.item.id)">Seç</b-form-checkbox>
             </template>
-          </b-table> 
+          </b-table>
 
           </b-card>
 
@@ -43,27 +50,10 @@ export default {
   data() {
     return {
       internId: "",
-      fields: [
-        "Günler",
-        "İşlem"
-      ],
-      days: [],
-      insertModalShow: false,
-      updateModalShow: false,
-      // insert
-      minDate: "",
-      maxDate: "",
-      inputDate: "",
-      textarea: "",
-      file: [],
-
-      // update
-      editDate: "",
-      editText: "",
-      editInputFile: [],
-      editFileFields: ["id", "resim", "işlem"],
-      editFileList: [],
-      updateDayId: "",
+      baseUrl: "",
+      fields: ["id", "Günler", "İşlem"],
+      selectedDays: [],
+      days: []
     };
   },
 
@@ -79,6 +69,63 @@ export default {
   },
 
   methods: {
+    submitSelectedDays() {
+      var point = prompt("Puan Giriniz (0 - 100)", "");
+
+      if (isNaN(point) || point < 0 || point > 100) {
+        alert("Hatalı puan girdiniz!");
+        return;
+      }
+
+      const url = "http://bitirme.emre.pw/Firma/StajDegerlendir";
+      var data = new FormData();
+      data.append("token", sessionStorage.getItem("token"));
+      data.append("staj_id", this.internId);
+      data.append("puan", point);
+      data.append("raporlar", "[" + this.selectedDays.toString() + "]");
+
+      let fetchData = {
+        method: "POST",
+        body: data
+      };
+
+      return fetch(url, fetchData)
+        .then(res => {
+          return res.json();
+        })
+        .then(resJson => {
+          if (resJson.result == false) {
+            this.error = resJson.error;
+            if (resJson.error == -1) {
+              sessionStorage.clear();
+              location.reload();
+              return -1;
+            }
+          } else {
+            location.reload();
+          }
+        });
+    },
+
+    checkDay(id) {
+      let isExistId = this.selectedDays.filter(e => e == id);
+
+      if (isExistId.length == 0) {
+        this.selectedDays.push(id);
+      } else {
+        let tempDays = this.selectedDays.filter(e => e != id);
+        this.selectedDays = tempDays;
+      }
+    },
+
+    printImage(image) {
+      return this.baseUrl + image;
+    },
+
+    clickImage(image) {
+      var win = window.open(this.baseUrl + image, "_blank");
+      win.focus();
+    },
 
     handleUpdateModal(data) {
       this.updateModalShow = !this.updateModalShow;
@@ -87,7 +134,6 @@ export default {
       this.editFileList = data.Resimler;
       this.updateDayId = data.id;
     },
-
 
     getInternDays(internId) {
       const url = "http://bitirme.emre.pw/Staj/RaporListele";
@@ -115,6 +161,7 @@ export default {
               alert(resJson.error);
             }
           } else {
+            this.baseUrl = resJson.url;
             resJson.gunler.map(item => {
               this.days.push({
                 id: item.id,
