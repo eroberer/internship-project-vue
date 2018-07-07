@@ -16,6 +16,12 @@
               <div v-else-if="data.item.Durum == 1">
                 Okul Onayı bekliyor
               </div>
+              <div v-else-if="data.item.Durum == -1">
+                Firma Tarafından Reddedilmiş
+              </div>
+              <div v-else-if="data.item.Durum == -2">
+                Okul Tarafından Reddedilmiş
+              </div>
               <div v-else-if="data.item.Durum >= 2">
                 <b-button variant="primary" :to="{ name: 'InternDetail', params: data.item }">Staj Detay</b-button>
               </div>
