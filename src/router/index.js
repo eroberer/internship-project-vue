@@ -7,13 +7,15 @@ import Full from '@/containers/Full'
 // Views - Pages
 import Login from '@/views/pages/Login'
 
+import Redirect from '@/views/Redirect'
+
 // Student
 import InternList from '@/views/student/InternList'
 import InternAdd from '@/views/student/InternAdd'
 import InternDetail from '@/views/student/InternDetail'
 
 // Company
-import CompanyInternList from '@/views/company/InternList'
+import CompanyInternList from '@/views/company/CompanyInternList'
 import CompanyInternDetail from '@/views/company/CompanyInternDetail'
 import ConfirmedInternList from '@/views/company/ConfirmedInternList'
 import MemberList from '@/views/company/MemberList'
@@ -29,8 +31,14 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
+      redirect: 'redirect',
       component: Full,
       children: [
+        {
+          path: 'redirect',
+          name: 'Redirect',
+          component: Redirect
+        },
         {
           path: 'student',
           redirect: '/student/internlist',
@@ -58,7 +66,7 @@ export default new Router({
         },
         {
           path: 'company',
-          redirect: '/company/internlist',
+          redirect: '/company/companyinternlist',
           name: 'Company',
           component: {
             render(c) { return c('router-view') }
@@ -75,8 +83,8 @@ export default new Router({
               component: MemberAdd
             },
             {
-              path: 'internlist',
-              name: 'InternList',
+              path: 'companyinternlist',
+              name: 'CompanyInternList',
               component: CompanyInternList
             },
             {

@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "InternList",
+  name: "CompanyInternList",
   data() {
     return {
       fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Onay Durumu"],

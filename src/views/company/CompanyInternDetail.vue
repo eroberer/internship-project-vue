@@ -4,13 +4,57 @@
       <b-col md="12">
         <b-card>
           <div slot="header">
-            <strong>{{ $route.params["Ad Soyad"] }}</strong> ({{ $route.params["Başlangıç"] }} - {{ $route.params["Bitiş"] }})
-            <span class="text-right">
-             <b-button variant="danger" @click="submitSelectedDays">
-              Tamamla
-            </b-button>
-            </span>
+            <b-row>
+              <b-col>
+            <strong>{{ $route.params["Ad Soyad"] }}</strong> <br />({{ $route.params["Başlangıç"] }} - {{ $route.params["Bitiş"] }})
+              </b-col>
+                <b-col>
+                    <b-row>
+                      <b-col>İş Devam Durumu
+                      <b-form-select v-model="point1" :options="pointOptions" class="mb-3">
+                      </b-form-select>
+                      </b-col>
+                    </b-row>
+                </b-col>
 
+                <b-col>
+                    <b-row>
+                      <b-col>Çalışma Gayreti
+                      <b-form-select v-model="point2" :options="pointOptions" class="mb-3">
+                      </b-form-select>
+                      </b-col>
+                    </b-row>
+                </b-col>
+
+                <b-col>
+                    <b-row>
+                      <b-col>Zamanında Yapma
+                      <b-form-select v-model="point3" :options="pointOptions" class="mb-3">
+                      </b-form-select>
+                      </b-col>
+                    </b-row>
+                </b-col>
+
+                <b-col>
+                    <b-row>
+                      <b-col>İşyerinde ki davranışlar
+                      <b-form-select v-model="point4" :options="pointOptions" class="mb-3">
+                      </b-form-select>
+                      </b-col>
+                    </b-row>
+                </b-col>
+
+                <b-col>
+                  <b-row>
+                      <b-col><br />
+              <b-button variant="danger" @click="submitSelectedDays">
+                Tamamla
+              </b-button>
+              </b-col>
+                    </b-row>
+              </b-col>
+
+            </b-row>
           </div>
 
           <b-table  striped hover :items="days" :fields="fields">
@@ -53,13 +97,18 @@ export default {
       baseUrl: "",
       fields: ["id", "Günler", "İşlem"],
       selectedDays: [],
-      days: []
+      days: [],
+      pointOptions: [1, 2, 3, 4, 5],
+      point1: 5,
+      point2: 5,
+      point3: 5,
+      point4: 5
     };
   },
 
   created() {
     if (this.$route.params.id === undefined)
-      this.$router.push({ name: "InternList" });
+      this.$router.push({ name: "CompanyInternList" });
 
     this.internId = this.$route.params.id;
     this.getInternDays(this.internId);
@@ -70,10 +119,14 @@ export default {
 
   methods: {
     submitSelectedDays() {
-      var point = prompt("Puan Giriniz (0 - 100)", "");
+      var countOfSelectedDays = this.selectedDays.length;
 
-      if (isNaN(point) || point < 0 || point > 100) {
-        alert("Hatalı puan girdiniz!");
+      if (countOfSelectedDays == 0) {
+        alert("Hiç gün onaylamadınız!");
+        return;
+      }
+
+      if (!confirm(countOfSelectedDays + " gün seçtiniz.İşlemi bitirmek istediğinize emin misiniz?")) {
         return;
       }
 
@@ -81,7 +134,7 @@ export default {
       var data = new FormData();
       data.append("token", sessionStorage.getItem("token"));
       data.append("staj_id", this.internId);
-      data.append("puan", point);
+      data.append("puan", this.point1 + "" +  this.point2  + "" +  this.point3  + "" +  this.point4);
       data.append("raporlar", "[" + this.selectedDays.toString() + "]");
 
       let fetchData = {
@@ -102,7 +155,8 @@ export default {
               return -1;
             }
           } else {
-            location.reload();
+            alert("İşlem tamamlandı!");
+            this.$router.push({ name: "Login" });
           }
         });
     },

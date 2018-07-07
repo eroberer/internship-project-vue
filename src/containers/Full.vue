@@ -67,7 +67,7 @@ export default {
         },
         {
           name: "Staj Başvuruları",
-          url: "/company/internlist",
+          url: "/company/companyinternlist",
           icon: "icon-speedometer"
         },
         {
