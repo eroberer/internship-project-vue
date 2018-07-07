@@ -68,7 +68,7 @@
 
               </div>
               <div v-else-if="$route.params.Durum >= 2">
-                Firma onayı bekleniyor
+                Düzenleme yapılamaz
               </div>
             </template>
           </b-table> 
@@ -351,8 +351,8 @@ export default {
                 id: item.id,
                 Tarih: item.staj_tarihi.split(" ")[0],
                 Açıklama: item.aciklama,
-                "Firma Onay": item.firma_onay,
-                "Okul Onay": item.okul_onay,
+                "Firma Onay": item.firma_onay == "1" ? "Onaylı" : "Onaylanmamış",
+                "Okul Onay": item.okul_onay == "1" ? "Onaylı" : "Onaylanmamış",
                 Resimler: item.resimler
               });
             });
