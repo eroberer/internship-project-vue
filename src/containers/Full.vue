@@ -66,6 +66,11 @@ export default {
           icon: "icon-speedometer"
         },
         {
+          name: "Stajlar",
+          url: "/company/oldinternlist",
+          icon: "icon-speedometer"
+        },
+        {
           name: "Staj Başvuruları",
           url: "/company/companyinternlist",
           icon: "icon-speedometer"

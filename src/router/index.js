@@ -19,6 +19,7 @@ import InternDetail from '@/views/student/InternDetail'
 import CompanyInternList from '@/views/company/CompanyInternList'
 import CompanyInternDetail from '@/views/company/CompanyInternDetail'
 import ConfirmedInternList from '@/views/company/ConfirmedInternList'
+import CompanyOldInternList from '@/views/company/OldInternList'
 import MemberList from '@/views/company/MemberList'
 import MemberAdd from '@/views/company/MemberAdd'
 
@@ -97,6 +98,11 @@ export default new Router({
               path: 'companyinterndetail',
               name: 'CompanyInternDetail',
               component: CompanyInternDetail
+            },
+            {
+              path: 'oldinternlist',
+              name: 'OldInternList',
+              component: CompanyOldInternList
             }
           ]
         },
