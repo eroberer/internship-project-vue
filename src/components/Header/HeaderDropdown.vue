@@ -5,7 +5,7 @@
           <img :src="image" class="img-avatar" width="40" height="40" style="border:1px solid #efefef">
         </template>
         <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-        <b-dropdown-item><i class="fa fa-user"></i> Profil</b-dropdown-item>
+        <b-dropdown-item @click="profile"><i class="fa fa-user"></i> Profil</b-dropdown-item>
         <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Çıkış</b-dropdown-item>
       </b-nav-item-dropdown>
 </template>
@@ -23,6 +23,10 @@ export default {
   },
 
   methods: {
+    profile() {
+      this.$router.push({ name: "Profile" });
+    },
+
     logout() {
       sessionStorage.clear();
       location.reload();

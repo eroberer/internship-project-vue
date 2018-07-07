@@ -6,6 +6,7 @@ import Full from '@/containers/Full'
 
 // Views - Pages
 import Login from '@/views/pages/Login'
+import Profile from '@/views/pages/Profile'
 
 import Redirect from '@/views/Redirect'
 
@@ -98,6 +99,11 @@ export default new Router({
               component: CompanyInternDetail
             }
           ]
+        },
+        {
+          path: 'profile',
+          name: 'Profile',
+          component: Profile
         }
       ]
     },

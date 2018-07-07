@@ -141,7 +141,7 @@ export default {
       days: [],
       insertModalShow: false,
       updateModalShow: false,
-      baseUrl:"",
+      baseUrl: "",
       // insert
       minDate: "",
       maxDate: "",
@@ -155,7 +155,7 @@ export default {
       editInputFile: [],
       editFileFields: ["id", "resim", "işlem"],
       editFileList: [],
-      updateDayId: "",
+      updateDayId: ""
     };
   },
 
@@ -179,7 +179,6 @@ export default {
         data.append("token", sessionStorage.getItem("token"));
         data.append("kullanici_id", sessionStorage.getItem("userId"));
         data.append("resim_id", id);
-
 
         let fetchData = {
           method: "POST",
@@ -256,19 +255,17 @@ export default {
             }
           } else {
             this.getInternDays(this.internId);
-              this.editDate= "";
-              this.editText= "";
-              this.editInputFile= [];
-              this.editFileList= [];
-              this.updateDayId= "";
+            this.editDate = "";
+            this.editText = "";
+            this.editInputFile = [];
+            this.editFileList = [];
+            this.updateDayId = "";
           }
         });
-
-
     },
 
     clickImage(image) {
-      var win = window.open(image, '_blank');
+      var win = window.open(image, "_blank");
       win.focus();
     },
 
@@ -314,13 +311,11 @@ export default {
             }
           } else {
             this.getInternDays(this.internId);
-              this.inputDate= "";
-              this.textarea= "";
-              this.file= [];
+            this.inputDate = "";
+            this.textarea = "";
+            this.file = [];
           }
         });
-
-
     },
 
     getInternDays(internId) {
@@ -362,10 +357,10 @@ export default {
               });
             });
             this.days.map(o => {
-              if(o.Resimler.length > 0) {
+              if (o.Resimler.length > 0) {
                 o.Resimler.map(r => {
                   r.resim = resJson.url + r.resim;
-                })
+                });
               }
             });
           }
@@ -373,35 +368,39 @@ export default {
     },
 
     handleFinish() {
-      if(confirm("Stajı tamamlamak istediğinize emin misiniz? (Gün Ekleme ve düzenleme yapılmaz)")) {
-      const url = "http://bitirme.emre.pw/Staj/SonucDegistir";
+      if (
+        confirm(
+          "Stajı tamamlamak istediğinize emin misiniz? (Gün Ekleme ve düzenleme yapılmaz)"
+        )
+      ) {
+        const url = "http://bitirme.emre.pw/Staj/SonucDegistir";
 
-      var data = new FormData();
-      data.append("token", sessionStorage.getItem("token"));
-      data.append("sonuc", 3);
-      data.append("staj_id", this.$route.params.id);
+        var data = new FormData();
+        data.append("token", sessionStorage.getItem("token"));
+        data.append("sonuc", 3);
+        data.append("staj_id", this.$route.params.id);
 
-      let fetchData = {
-        method: "POST",
-        body: data
-      };
+        let fetchData = {
+          method: "POST",
+          body: data
+        };
 
-      return fetch(url, fetchData)
-        .then(res => {
-          return res.json();
-        })
-        .then(resJson => {
-          if (resJson.result == false) {
-            console.log(resJson.error);
-            if (resJson.error == -1) {
-              sessionStorage.clear();
+        return fetch(url, fetchData)
+          .then(res => {
+            return res.json();
+          })
+          .then(resJson => {
+            if (resJson.result == false) {
+              console.log(resJson.error);
+              if (resJson.error == -1) {
+                sessionStorage.clear();
+                location.reload();
+                return -1;
+              }
+            } else {
               location.reload();
-              return -1;
             }
-          } else {
-            location.reload();
-          }
-        });
+          });
       }
     }
   }

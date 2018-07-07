@@ -251,7 +251,7 @@ export default {
               return -1;
             }
           } else {
-            console.log(resJson);
+            alert("Staj başarıyla Eklendi!");
           }
         });
     },
