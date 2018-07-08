@@ -7,9 +7,20 @@
             <strong>Stajlar</strong>
           </div>
 
-          <b-table  striped hover :items="interns" :fields="fields"></b-table>
+          <b-table  striped hover :items="interns" :fields="fields">
 
-        </b-card>
+              <template slot="Puan" slot-scope="data">
+              <div v-if="data.item.status > 2">
+                <b>Devam Durumu:</b> {{data.item.Puan[0]}} <br/>
+                <b>Çalışma Gayreti:</b> {{data.item.Puan[1]}} <br/>
+                <b>Zamanında Yapma:</b> {{data.item.Puan[2]}} <br/>
+                <b>Davranışlar:</b> {{data.item.Puan[3]}} <br/>
+              </div>
+
+            </template>
+          </b-table>
+          </b-card>
+
       </b-col>
     </b-row>
 
@@ -21,7 +32,7 @@ export default {
   name: "OldInternList",
   data() {
     return {
-      fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Sonuç"],
+      fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Sonuç", "Puan"],
       interns: []
     };
   },
@@ -69,7 +80,9 @@ export default {
                   Eposta: item.eposta,
                   Başlangıç: item.baslangic_tarih.split(" ")[0],
                   Bitiş: item.bitis_tarih.split(" ")[0],
-                  Sonuç: this.getInternResult(item.sonuc)
+                  Sonuç: this.getInternResult(item.sonuc),
+                  status: parseInt(item.sonuc),
+                  Puan: item.puan
                 });
             });
           }

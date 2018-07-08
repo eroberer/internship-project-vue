@@ -252,6 +252,7 @@ export default {
             }
           } else {
             alert("Staj başarıyla Eklendi!");
+            this.$router.push({name: "InternList"});
           }
         });
     },
