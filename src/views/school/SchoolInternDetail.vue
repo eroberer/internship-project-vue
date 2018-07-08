@@ -8,41 +8,6 @@
               <b-col>
             <strong>{{ $route.params["Ad Soyad"] }}</strong> <br />({{ $route.params["Başlangıç"] }} - {{ $route.params["Bitiş"] }})
               </b-col>
-                <b-col>
-                    <b-row>
-                      <b-col>İş Devam Durumu
-                      <b-form-select v-model="point1" :options="pointOptions" class="mb-3">
-                      </b-form-select>
-                      </b-col>
-                    </b-row>
-                </b-col>
-
-                <b-col>
-                    <b-row>
-                      <b-col>Çalışma Gayreti
-                      <b-form-select v-model="point2" :options="pointOptions" class="mb-3">
-                      </b-form-select>
-                      </b-col>
-                    </b-row>
-                </b-col>
-
-                <b-col>
-                    <b-row>
-                      <b-col>Zamanında Yapma
-                      <b-form-select v-model="point3" :options="pointOptions" class="mb-3">
-                      </b-form-select>
-                      </b-col>
-                    </b-row>
-                </b-col>
-
-                <b-col>
-                    <b-row>
-                      <b-col>İşyerinde ki davranışlar
-                      <b-form-select v-model="point4" :options="pointOptions" class="mb-3">
-                      </b-form-select>
-                      </b-col>
-                    </b-row>
-                </b-col>
 
                 <b-col>
                   <b-row>
@@ -108,7 +73,7 @@ export default {
 
   created() {
     if (this.$route.params.id === undefined)
-      this.$router.push({ name: "CompanyInternList" });
+      this.$router.push({ name: "SchoolConfirmedInternList" });
 
     this.internId = this.$route.params.id;
     this.getInternDays(this.internId);
@@ -121,20 +86,14 @@ export default {
     submitSelectedDays() {
       var countOfSelectedDays = this.selectedDays.length;
 
-      if (countOfSelectedDays == 0) {
-        alert("Hiç gün onaylamadınız!");
-        return;
-      }
-
       if (!confirm(countOfSelectedDays + " gün seçtiniz.İşlemi bitirmek istediğinize emin misiniz?")) {
         return;
       }
 
-      const url = "http://bitirme.emre.pw/Firma/StajDegerlendir";
+      const url = "http://bitirme.emre.pw/Okul/StajDegerlendir";
       var data = new FormData();
       data.append("token", sessionStorage.getItem("token"));
       data.append("staj_id", this.internId);
-      data.append("puan", this.point1 + "" +  this.point2  + "" +  this.point3  + "" +  this.point4);
       data.append("raporlar", "[" + this.selectedDays.toString() + "]");
 
       let fetchData = {
@@ -207,6 +166,7 @@ export default {
         })
         .then(resJson => {
           if (resJson.result == false) {
+            
             if (resJson.error == -1) {
               sessionStorage.clear();
               location.reload();
@@ -216,14 +176,15 @@ export default {
           } else {
             this.baseUrl = resJson.url;
             resJson.gunler.map(item => {
-              this.days.push({
-                id: item.id,
-                Tarih: item.staj_tarihi.split(" ")[0],
-                Açıklama: item.aciklama,
-                "Firma Onay": item.firma_onay,
-                "Okul Onay": item.okul_onay,
-                Resimler: item.resimler
-              });
+              if (item.firma_onay != 0)
+                this.days.push({
+                  id: item.id,
+                  Tarih: item.staj_tarihi.split(" ")[0],
+                  Açıklama: item.aciklama,
+                  "Firma Onay": item.firma_onay,
+                  "Okul Onay": item.okul_onay,
+                  Resimler: item.resimler
+                });
             });
           }
         });

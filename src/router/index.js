@@ -26,6 +26,11 @@ import MemberAdd from '@/views/company/MemberAdd'
 // School
 import Faculty from '@/views/school/Faculty'
 import Department from '@/views/school/Department'
+import Student from '@/views/school/Student'
+import Teacher from '@/views/school/Teacher'
+import SchoolInternList from '@/views/school/SchoolInternList'
+import SchoolConfirmedInternList from '@/views/school/SchoolConfirmedInternList'
+import SchoolInternDetail from '@/views/school/SchoolInternDetail'
 
 Vue.use(Router)
 
@@ -127,6 +132,31 @@ export default new Router({
               path: 'department',
               name: 'Department',
               component: Department
+            },
+            {
+              path: 'student',
+              name: 'Student',
+              component: Student
+            },
+            {
+              path: 'teacher',
+              name: 'Teacher',
+              component: Teacher
+            },
+            {
+              path: 'schoolinternlist',
+              name: 'SchoolInternList',
+              component: SchoolInternList
+            },
+            {
+              path: 'schoolconfirmedinternlist',
+              name: 'SchoolConfirmedInternList',
+              component: SchoolConfirmedInternList
+            },
+            {
+              path: 'schoolinterndetail',
+              name: 'SchoolInternDetail',
+              component: SchoolInternDetail
             }
           ]
         },

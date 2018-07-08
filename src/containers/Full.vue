@@ -92,6 +92,26 @@ export default {
           name: "Bölümler",
           url: "/school/department",
           icon: "icon-speedometer"
+        },
+        {
+          name: "Öğrenciler",
+          url: "/school/student",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Öğretim Görevlileri",
+          url: "/school/teacher",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Staj Başvuruları",
+          url: "/school/schoolinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Değerlendirelecek Stajlar",
+          url: "/school/schoolconfirmedinternlist",
+          icon: "icon-speedometer"
         }
       ];
     }
