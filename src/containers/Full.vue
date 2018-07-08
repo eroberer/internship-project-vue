@@ -81,6 +81,19 @@ export default {
           icon: "icon-speedometer"
         }
       ];
+    } else if (userRank == 4) {
+      this.nav = [
+        {
+          name: "Fakülteler",
+          url: "/school/faculty",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Bölümler",
+          url: "/school/department",
+          icon: "icon-speedometer"
+        }
+      ];
     }
   },
   computed: {

@@ -23,6 +23,10 @@ import CompanyOldInternList from '@/views/company/OldInternList'
 import MemberList from '@/views/company/MemberList'
 import MemberAdd from '@/views/company/MemberAdd'
 
+// School
+import Faculty from '@/views/school/Faculty'
+import Department from '@/views/school/Department'
+
 Vue.use(Router)
 
 export default new Router({
@@ -103,6 +107,26 @@ export default new Router({
               path: 'oldinternlist',
               name: 'OldInternList',
               component: CompanyOldInternList
+            }
+          ]
+        },
+        {
+          path: 'school',
+          redirect: '/school/faculty',
+          name: 'Shcool',
+          component: {
+            render(c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: 'faculty',
+              name: 'Faculty',
+              component: Faculty
+            },
+            {
+              path: 'department',
+              name: 'Department',
+              component: Department
             }
           ]
         },
