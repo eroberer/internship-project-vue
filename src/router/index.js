@@ -22,6 +22,7 @@ import ConfirmedInternList from '@/views/company/ConfirmedInternList'
 import CompanyOldInternList from '@/views/company/OldInternList'
 import MemberList from '@/views/company/MemberList'
 import MemberAdd from '@/views/company/MemberAdd'
+import CompanyUpdate from '@/views/company/CompanyUpdate'
 
 // School
 import Faculty from '@/views/school/Faculty'
@@ -32,6 +33,7 @@ import SchoolInternList from '@/views/school/SchoolInternList'
 import SchoolConfirmedInternList from '@/views/school/SchoolConfirmedInternList'
 import SchoolInternDetail from '@/views/school/SchoolInternDetail'
 import CompanyList from '@/views/school/CompanyList'
+import AllInternList from '@/views/school/AllInternList'
 
 Vue.use(Router)
 
@@ -113,6 +115,11 @@ export default new Router({
               path: 'oldinternlist',
               name: 'OldInternList',
               component: CompanyOldInternList
+            },
+            {
+              path: 'companyupdate',
+              name: 'CompanyUpdate',
+              component: CompanyUpdate
             }
           ]
         },
@@ -163,6 +170,11 @@ export default new Router({
               path: 'companylist',
               name: 'CompanyList',
               component: CompanyList
+            },
+            {
+              path: 'allinternlist',
+              name: 'AllInternList',
+              component: AllInternList
             }
           ]
         },

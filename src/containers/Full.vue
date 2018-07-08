@@ -56,6 +56,11 @@ export default {
     } else if (userRank == 2) {
       this.nav = [
         {
+          name: "Firma Bilgileri",
+          url: "/company/companyupdate",
+          icon: "icon-speedometer"
+        },
+        {
           name: "Personel Listesi",
           url: "/company/memberlist",
           icon: "icon-speedometer"
@@ -65,6 +70,24 @@ export default {
           url: "/company/memberadd",
           icon: "icon-speedometer"
         },
+        {
+          name: "Stajlar",
+          url: "/company/oldinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Staj Başvuruları",
+          url: "/company/companyinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Değerlendirilecek Stajlar",
+          url: "/company/confirmedinternlist",
+          icon: "icon-speedometer"
+        }
+      ];
+    } else if (userRank == 3) {
+      this.nav = [
         {
           name: "Stajlar",
           url: "/company/oldinternlist",
@@ -101,6 +124,34 @@ export default {
         {
           name: "Öğretim Görevlileri",
           url: "/school/teacher",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Stajlar",
+          url: "/school/allinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Staj Başvuruları",
+          url: "/school/schoolinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Değerlendirelecek Stajlar",
+          url: "/school/schoolconfirmedinternlist",
+          icon: "icon-speedometer"
+        },
+        {
+          name: "Onay Bekleyen Firmalar",
+          url: "/school/companylist",
+          icon: "icon-speedometer"
+        }
+      ];
+    } else if (userRank == 5) {
+      this.nav = [
+        {
+          name: "Stajlar",
+          url: "/school/allinternlist",
           icon: "icon-speedometer"
         },
         {
