@@ -112,6 +112,11 @@ export default {
           name: "Değerlendirelecek Stajlar",
           url: "/school/schoolconfirmedinternlist",
           icon: "icon-speedometer"
+        },
+        {
+          name: "Onay Bekleyen Firmalar",
+          url: "/school/companylist",
+          icon: "icon-speedometer"
         }
       ];
     }

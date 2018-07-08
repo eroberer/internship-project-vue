@@ -4,14 +4,14 @@
       <b-col md="12">
         <b-card>
           <div slot="header">
-            <strong>Staj Başvuruları</strong>
+            <strong>Firmalar</strong>
           </div>
 
-          <b-table  striped hover :items="interns" :fields="fields">
+          <b-table  striped hover :items="companies" :fields="fields">
             
             <template slot="Onay Durumu" slot-scope="data">
-                <b-button variant="success" @click="confirm(true, data.item.id)">Onay</b-button>
-                <b-button variant="danger" @click="confirm(false, data.item.id)">Red</b-button>
+                <b-button variant="success" @click="confirm(true, data.item.ID)">Onay</b-button>
+                <b-button variant="danger" @click="confirm(false, data.item.ID)">Sil</b-button>
             </template>
 
           </b-table>
@@ -25,26 +25,27 @@
 
 <script>
 export default {
-  name: "CompanyInternList",
+  name: "CompanyList",
   data() {
     return {
-      fields: ["Ad Soyad", "Eposta", "Firma Adı", "Bölüm", "Başlangıç", "Bitiş", "Onay Durumu"],
-      interns: []
+      fields: ["id", "Firma Adı", "Onay Durumu"],
+      companies: []
     };
   },
 
   created() {
-    this.getInternList();
+    this.getCompanyList();
   },
 
   methods: {
     confirm(val, id) {
-      const url = "http://bitirme.emre.pw/Staj/SonucDegistir";
+      var url = "http://bitirme.emre.pw/Okul/";
+      
+      url += val ? "FirmaOnayla" : "FirmaSil";
 
       var data = new FormData();
       data.append("token", sessionStorage.getItem("token"));
-      data.append("sonuc", val ? 2 : -2);
-      data.append("staj_id", id);
+      data.append("id", id);
 
       let fetchData = {
         method: "POST",
@@ -64,19 +65,17 @@ export default {
               return -1;
             }
           } else {
-            this.getInternList();
+            this.getCompanyList();
           }
         });
     },
 
-    getInternList() {
-      this.interns = [];
-      const url = "http://bitirme.emre.pw/Okul/Stajlar";
+    getCompanyList() {
+      this.companies = [];
+      const url = "http://bitirme.emre.pw/Firma/Listele";
 
       var data = new FormData();
       data.append("token", sessionStorage.getItem("token"));
-      data.append("id", JSON.parse(sessionStorage.getItem("info")).bolumler.length == 0 ? 0 : JSON.parse(sessionStorage.getItem("info")).bolumler[0].bolum_id);
-
 
       let fetchData = {
         method: "POST",
@@ -96,17 +95,11 @@ export default {
               return -1;
             }
           } else {
-            console.log(resJson);
-            resJson.stajlar.map(item => {
-              if (item.sonuc == 1)
-                this.interns.push({
-                  id: item.staj_id,
-                  "Ad Soyad": item.ad_soyad,
-                  "Bölüm":item.bolum_adi,
-                  "Firma Adı": item.firma_adi,
-                  Eposta: item.eposta,
-                  Başlangıç: item.baslangic_tarih.split(" ")[0],
-                  Bitiş: item.bitis_tarih.split(" ")[0]
+            resJson.list.map(item => {
+              if (item.onay == -1)
+                this.companies.push({
+                  ID: item.id,
+                  "Firma Adı": item.adi
                 });
             });
           }

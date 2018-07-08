@@ -156,6 +156,7 @@ export default {
             }
           } else {
             alert("İşlem tamamlandı!");
+            this.$router.push({name : "ConfirmedInternList"});
           }
         });
     },

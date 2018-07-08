@@ -31,6 +31,7 @@ import Teacher from '@/views/school/Teacher'
 import SchoolInternList from '@/views/school/SchoolInternList'
 import SchoolConfirmedInternList from '@/views/school/SchoolConfirmedInternList'
 import SchoolInternDetail from '@/views/school/SchoolInternDetail'
+import CompanyList from '@/views/school/CompanyList'
 
 Vue.use(Router)
 
@@ -117,7 +118,7 @@ export default new Router({
         },
         {
           path: 'school',
-          redirect: '/school/faculty',
+          redirect: '/school/schoolinternlist',
           name: 'Shcool',
           component: {
             render(c) { return c('router-view') }
@@ -157,6 +158,11 @@ export default new Router({
               path: 'schoolinterndetail',
               name: 'SchoolInternDetail',
               component: SchoolInternDetail
+            },
+            {
+              path: 'companylist',
+              name: 'CompanyList',
+              component: CompanyList
             }
           ]
         },

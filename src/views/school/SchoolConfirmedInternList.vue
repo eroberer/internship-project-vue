@@ -27,7 +27,7 @@ export default {
   name: "SchoolConfirmedInternList",
   data() {
     return {
-      fields: ["Ad Soyad", "Eposta", "Bölüm", "Başlangıç", "Bitiş", "Değerlendir"],
+      fields: ["Ad Soyad", "Eposta","Firma Adı", "Bölüm", "Başlangıç", "Bitiş", "Değerlendir"],
       interns: []
     };
   },
@@ -69,6 +69,7 @@ export default {
                 this.interns.push({
                   id: item.staj_id,
                   "Ad Soyad": item.ad_soyad,
+                  "Firma Adı": item.firma_adi,
                   "Bölüm":item.bolum_adi,
                   Eposta: item.eposta,
                   Başlangıç: item.baslangic_tarih.split(" ")[0],
