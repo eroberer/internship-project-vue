@@ -90,7 +90,13 @@ export default {
               alert(resJson.error);
             }
           } else {
+            var info = JSON.parse(sessionStorage.getItem("info"));
+            info.resim = resJson.resim || info.resim;
+            info.ad_soyad = this.fullname;
+            info.sifre = this.password;
+            sessionStorage.setItem("info", JSON.stringify(info));
             alert("Profil başarıyla güncellendi!");
+            location.reload();
           }
         });
     }
